@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="thuvien::header">
+</head>
+
+<body>
+<!-- Page Preloder -->
+
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Check Out</h4>
+                    <div class="breadcrumb__links">
+                        <a href="./index.html">Home</a>
+                        <a href="products.html">Shop</a>
+                        <span>Check Out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+            <div class="text-danger" th:if="${error}" th:text="${error}"></div>
+            <form th:action="@{/check-out}" method="post" th:object="${customer}">
+
+                <div class="row">
+                    <div class="col-lg-8 col-md-6">
+                        <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
+                            here</a> to enter your code</h6>
+                        <h6 class="checkout__title">Billing Details</h6>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Fist Name<span>*</span></p>
+                                    <input type="text" th:field="*{firstName}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Last Name<span>*</span></p>
+                                    <input type="text" th:field="*{lastName}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Address<span>*</span></p>
+                            <input type="text" placeholder="Street Address" class="checkout__input__add"
+                                   th:field="*{address}">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Phone<span>*</span></p>
+                                    <input type="text" th:field="*{phoneNumber}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Email<span>*</span></p>
+                                    <input type="text" th:field="*{username}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order">
+                            <h4 class="order__title">Your order</h4>
+                            <div class="checkout__order__products">Product <span>Total</span></div>
+                            <ul class="checkout__total__products" th:each="cartItem : ${shoppingCart.cartItem}">
+                                <li>
+                                    [[${cartItem.product.name}]]
+                                    <span th:text="'$' + ${cartItem.totalPrice}"></span>
+                                </li>
+                            </ul>
+                            <ul class="checkout__total__all">
+                                <li>Total <span>$[[${shoppingCart.getTotalPrices}]]</span></li>
+
+                            </ul>
+
+
+                            <button th:if="${check > 0}" type="submit" class="site-btn">PLACE ORDER</button>
+                            <a th:if="${check == 0}" th:href="@{products/0}" class="site-btn text-center">Continue Shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- Checkout Section End -->
+
+<!-- Footer Section Begin -->
+<footer th:replace="thuvien::footer">
+</footer>
+<!-- Footer Section End -->
+
+<!-- Search Begin -->
+
+<!-- Search End -->
+
+<!-- Js Plugins -->
+<script th:replace="thuvien::script"></script>
+</body>
+
+</html>

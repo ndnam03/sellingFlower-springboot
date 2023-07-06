@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<head th:replace="thuvien::header">
+</head>
+<body>
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul th:replace="fragments::sidebar"></ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+            <nav th:replace="thuvien::topbar"></nav>
+
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Product</h6> <br>
+                    <a th:href="@{/add-product}" class="btn btn-primary" >Add Product</a><br><br>
+                    <form th:action="@{/search-products/0}" method="post">
+                        <input class="form-control-lg bg-light border-0 small" type="text" name="keyword" placeholder="Search products">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+
+                </div>
+                <div th:if="${success}" class="alert alert-success">
+                    <p th:text="${success}"></p>
+                </div>
+
+                <table class="table table-striped" style="margin: 15px">
+
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}">
+                        <th scope="row" th:text="${product.name}"></th>
+                        <td th:text="${product.category.name}"></td>
+                        <td th:text="${product.costPrice}"></td>
+                        <td th:text="${product.currentQuantity}"></td>
+                        <td >
+                            <img th:src="@{'data:image/jpeg;base64,' + ${product.image}}" style="height: 40px; width: 40px;">
+                        </td>
+                        <td>
+                            <a th:href="@{/update-product/{id} (id = ${product.id})}" class="btn btn-primary">Update</a>
+                        </td>
+                        <td>
+                            <a th:if="${product.getActivated() == false}" th:href="@{/enable-product/{id} (id = ${product.id})}"  class="btn btn-warning">Enable</a>
+                            <a th:if="${product.getActivated() == true}" th:href="@{/deleted-product/{id} (id = ${product.id})}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <nav style="margin-left: 450px" aria-label="Page navigation example">
+                    <ul class="pagination" >
+                        <li class="page-item" th:if="${currentPage != 0}">
+                            <a class="page-link" th:href="@{${currentPage-1}}">Previous</a>
+                        </li>
+                        <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage == i - 1 ? 'active' : ''}" class="page-item">
+                            <a th:href="@{'/products/' + ${i - 1}}" class="page-link" href="#"><span th:text = "${i}"></span></a>
+                        </li>
+                        <li class="page-item" th:if="${currentPage + 1 != totalPages}">
+                            <a class="page-link" th:href="@{${currentPage+1}}" >Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="thuvien::footer">
+        </footer>
+        <!-- End of Footer -->
+        <div th:replace="thuvien::script"></div>
+    <script th:src="@{/js/categories.js}"></script>
+
+</body>
+</html>

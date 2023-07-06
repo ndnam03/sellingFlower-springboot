@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<head th:replace="thuvien::header">
+</head>
+<body>
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul th:replace="thuvien::sidebar"></ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+            <nav th:replace="thuvien::topbar"></nav>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Category</h6>
+                </div>
+                <div th:if="${size == 0}">
+                    <p>No Category</p>
+                </div>
+                <!--/*@thymesVar id="success" type="java"*/-->
+                <div th:if = "${success}" class="text-center alert alert-success">
+                    <p th:text="${success}"></p>
+                </div>
+
+                <!--/*@thymesVar id="failed" type="java"*/-->
+                <div th:if = "${failed}" class="text-center alert alert-danger">
+                    <p th:text="${failed}"></p>
+                </div>
+                <div class="card-body">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Add Category</button>
+                    <div class="table-responsive">
+                        <br>
+                        <table   class="table table-bordered" th:if="${size > 0}">
+                            <thead>
+                            <tr>
+                                <th scope="col">Category Index</th>
+                                <th scope="col">Category Name</th>
+                                <th scope="col">Edit Category Name</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="category : ${categories}">
+                                <th scope="row" th:text="${category.id}" > </th>
+                                <td th:text="${category.name}"></td>
+                                <td>
+                                    <a id="editButton" th:href="@{/findById/(id = ${category.id})}" class="btn btn-primary">Update</a>
+                                </td>
+                                <td>
+                                    <a th:if = "${category.is_activated()} == true" th:href="@{/delete-category/(id = ${category.id})}" class="btn btn-warning">Deleted</a>
+                                    <a th:if = "${category.is_activated()} == false" th:href="@{/enable-category/(id = ${category.id})}" class="btn btn-primary">Enabled</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--modal-->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/add-category}" method="post" th:object="${categoryNew}">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Recipient:</label>
+                        <input th:field="*{name}" type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Send message</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalexample" aria-hidden="true">
+    <form th:action="@{/update-category}" method="put">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >Edit Category</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="idEdit" class="col-form-label">ID:</label>
+                        <input type="text" class="form-control"  id="idEdit" name="id" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameEdit" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control"  id="nameEdit" name="name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="thuvien::footer">
+        </footer>
+        <!-- End of Footer -->
+        <div th:replace="thuvien::script"></div>
+    <script th:src="@{/js/categories.js}"></script>
+</body>
+</html>

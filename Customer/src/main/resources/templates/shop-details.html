@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="thuvien::header">
+</head>
+
+<body>
+
+
+    <!-- Offcanvas Menu Begin -->
+
+    <!-- Header Section Begin -->
+
+    <!-- Header Section End -->
+
+    <!-- Shop Details Section Begin -->
+   <section>
+       <div class="container mt-5 mb-5">
+           <div class="row d-flex justify-content-center">
+               <div class="col-md-10">
+                   <div class="card">
+                       <form th:action="@{/add-to-cart}" method="post">
+                       <div class="row">
+
+                           <div class="col-md-6">
+                               <div class="images p-3">
+                                   <div class="text-center p-4"> <img id="main-image" th:src="@{'data:image/jpeg;base64,' + ${product.image}}" width="250" /> </div>
+                               </div>
+                           </div>
+                           <div class="col-md-6">
+                               <div class="product p-4">
+                                   <div class="mt-4 mb-3"> <span class="text-uppercase text-muted brand"></span>
+                                       <h5 class="text-uppercase" th:text="${product.name}"></h5>
+                                       <div class="price d-flex flex-row align-items-center"> <span class="act-price" th:text="'$'+${product.costPrice}">/span>
+
+                                       </div>
+
+                                   </div>
+                                   <p class="about" th:text="${product.description}"></p>
+                                   <input name="productId" type="hidden" th:value="${product.id}" >
+
+                                   <div class="cart mt-4 align-items-center"> <button type="submit" class="btn btn-danger text-uppercase mr-2 px-4">Add to cart</button> <i class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i> </div>
+                               </div>
+                           </div>
+                       </div>
+                       </form>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </section>
+    <!-- Shop Details Section End -->
+
+    <!-- Related Section Begin -->
+    <section class="related spad">
+        <div class="container">
+            <form th:action="@{/add-to-cart}" method="post">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="related-title">Related Product</h3>
+                </div>
+            </div>
+            <div class="row" >
+                <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6" th:each="productRandom : ${productsRandom}">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg">
+                            <img  id="" th:src="@{'data:image/jpeg;base64,' + ${productRandom.image}}" width="80%"  />
+                        </div>
+                        <div >
+                            <h6 th:text="${productRandom.name}"></h6>
+                            <h5 th:text="'$'+${productRandom.costPrice}"></h5>
+                            <input name="productId" type="hidden" th:value="${productRandom.id}" >
+                            <div class="cart mt-4 align-items-center">
+                                <button type="submit" class="btn btn-danger text-uppercase mr-2 px-4">Add to cart</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </section>
+    <!-- Related Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                        </div>
+                        <p>The customer is at the heart of our unique business model, which includes design.</p>
+                        <a href="#"><img src="img/payment.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Clothing Store</a></li>
+                            <li><a href="#">Trending Shoes</a></li>
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Sale</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>Shopping</h6>
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Payment Methods</a></li>
+                            <li><a href="#">Delivary</a></li>
+                            <li><a href="#">Return & Exchanges</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                    <div class="footer__widget">
+                        <h6>NewLetter</h6>
+                        <div class="footer__newslatter">
+                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                            <form action="#">
+                                <input type="text" placeholder="Your email">
+                                <button type="submit"><span class="icon_mail_alt"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="footer__copyright__text">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        <p>Copyright ©
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script>2020
+                            All rights reserved | This template is made with <i class="fa fa-heart-o"
+                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        </p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search End -->
+
+    <!-- Js Plugins -->
+ <script th:replace="thuvien::script"></script>
+</body>
+
+</html>

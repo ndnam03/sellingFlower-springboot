@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="thuvien::header">
+    <title>Thống kê số lượng sản phẩm</title>
+</head>
+<body>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <ul th:replace="thuvien::sidebar"></ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <nav th:replace="thuvien::topbar"></nav>
+        </div>
+    </div>
+
+    <!-- Chart -->
+    <canvas id="productChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:inline="javascript">
+    var productData = /*[[${productCountByMonth}]]*/ {};
+
+    var months = Object.keys(productData);
+    var productCounts = Object.values(productData);
+
+    var monthLabels = months.map(function(month) {
+        return 'Tháng ' + month;
+    });
+
+    var ctx = document.getElementById('productChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: monthLabels, // Sử dụng mảng monthLabels làm nhãn trục x
+            datasets: [{
+                label: 'Số lượng sản phẩm',
+                data: productCounts,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    stepSize: 1
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            indexAxis: 'x',
+            barPercentage: 0.1 // Điều chỉnh độ rộng của các cột
+        }
+    });
+</script>
+
+<script th:replace="thuvien::script"></script>
+</body>
+</html>

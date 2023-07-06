@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="thuvien::header">
+</head>
+
+<body>
+
+<!-- Header Section End -->
+<div style="margin-bottom: 45px">
+</div>
+<!-- Breadcrumb Section End -->
+<div class="cart-box-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="table-main table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="order-date">Product</th>
+                            <th class="order-date">Order Date</th>
+                            <th>Delivery Date</th>
+                            <th class="price-pr">Order Status</th>
+
+                            <!--              <th class="quantity-box">Quantity</th>-->
+                            <th>Total Price</th>
+                            <th>Payment Mehod</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${!order.orderStatus.equals('SUCCESS')}" th:each="order : ${orders}">
+                            <td>
+                                <ul>
+                                    <li th:each="product : ${order.products}">
+                                        <span th:text="${product.name}"></span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="order-date">
+                                <span><b th:text="${order.orderDate}"></b></span>
+                            </td>
+                            <td class="name-pr">
+                                <span th:if="${order.deliveryDate != null}" >
+                                    [(${order.deliveryDate})]
+                                </span>
+                                <span th:if="${order.deliveryDate == null}"><p>Waiting...</p></span>
+                            </td>
+                            <td class="price-pr">
+                                <p th:text="${order.orderStatus}"></p>
+                            </td>
+                            <!--              <td class="quantity-box" th:text="${order.g}"> </td>-->
+                            <td class="total-pr">
+                                <p style="color: red">$ [(${order.totalPrice})]</p>
+                            </td>
+                            <td>
+                                <p>Cash</p>
+                            </td>
+                            <td>
+                                <a th:if="${order.deliveryDate == null}" th:href="@{/cancel-order/{id}(id=${order.id})}" class="btn btn-primary">Cancel</a>
+                                <button  th:if="${order.deliveryDate != null}" class="btn btn-primary">PLEASE WAIT</button>
+                            </td>
+                            </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Checkout Section Begin -->
+
+
+<!-- Footer Section Begin -->
+<footer th:replace="thuvien::footer">
+</footer>
+<!-- Footer Section End -->
+
+
+<!-- Search End -->
+
+<!-- Js Plugins -->
+<script th:replace="thuvien::script"></script>
+</body>
+
+</html>
